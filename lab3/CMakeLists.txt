@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.10)
+project(lab3)
+
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/hazelcast-client/hazelcast/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/hazelcast-client/hazelcast/generated-sources/include/")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/hazelcast-client/external/include/")
+
+file(GLOB MAP_WRITER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/map_writer.cpp")
+file(GLOB MAP_READER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/map_reader.cpp")
+file(GLOB MAP_WRITER_mt_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/map_writer_mt.cpp")
+file(GLOB QUEUE_WRITER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/queue_writer.cpp")
+file(GLOB QUEUE_READER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/queue_reader.cpp")
+file(GLOB topic_WRITER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/topic_writer.cpp")
+file(GLOB topic_READER_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/topic_reader.cpp")
+file(GLOB DISTRIBUTED_LOCK_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/distributed_lock.cpp")
+
+
+add_executable(map_writer ${MAP_WRITER_SRC})
+add_executable(map_reader ${MAP_READER_SRC})
+add_executable(map_writer_mt ${MAP_WRITER_mt_SRC})
+add_executable(queue_writer ${QUEUE_WRITER_SRC})
+add_executable(queue_reader ${QUEUE_READER_SRC})
+add_executable(topic_writer ${topic_WRITER_SRC})
+add_executable(topic_reader ${topic_READER_SRC})
+add_executable(distributed_lock ${DISTRIBUTED_LOCK_SRC})
+
+link_directories(STATIC "${CMAKE_CURRENT_SOURCE_DIR}/lib/")
+target_link_libraries(map_writer HazelcastClient3.12.1_64)
+target_link_libraries(map_reader HazelcastClient3.12.1_64)
+target_link_libraries(map_writer_mt HazelcastClient3.12.1_64)
+target_link_libraries(queue_writer HazelcastClient3.12.1_64)
+target_link_libraries(queue_reader HazelcastClient3.12.1_64)
+target_link_libraries(topic_writer HazelcastClient3.12.1_64)
+target_link_libraries(topic_reader HazelcastClient3.12.1_64)
+target_link_libraries(distributed_lock HazelcastClient3.12.1_64)
+
+
+find_package(Threads)
+target_link_libraries(map_writer ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(map_reader ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(map_writer_mt ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(queue_writer ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(queue_reader ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(topic_writer ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(topic_reader ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(distributed_lock ${CMAKE_THREAD_LIBS_INIT})
+
+
+set(CMAKE_CXX_FLAGS "-Wno-deprecated-declarations")
+set(CMAKE_CXX_STANDARD 17)

@@ -1,0 +1,16 @@
+{
+    "ID": "my-service",
+    "Name": "my-service",
+    "Tags": ["primary", "v1"],
+    "Address": "127.0.0.1",
+    "Port": 8000,
+    "Meta": {
+        "redis_version": "4.0"
+    },
+    "Check": {
+        "DeregisterCriticalServiceAfter": "90m",
+        "Args": ["curl", "localhost:8000"],
+        "Interval": "10s",
+        "Timeout": "5s"
+    }
+}
